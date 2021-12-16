@@ -1,0 +1,21 @@
+CREATE TYPE enum_status AS ENUM('PENDING', 'COMPLETED');
+
+CREATE TABLE IF NOT EXISTS todo (
+	"id" SERIAL NOT NULL,
+	"title" VARCHAR(255),
+	"status" enum_status DEFAULT 'PENDING',
+	"created_at" timestamp(0) DEFAULT CURRENT_TIMESTAMP,
+	"updated_at" timestamp(0) DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS sub_task (
+	"id" SERIAL NOT NULL,
+	"todo_id" INT4 NOT NULL,
+	"title" VARCHAR(255),
+	"status" enum_status DEFAULT 'PENDING',
+	"created_at" timestamp(0) DEFAULT CURRENT_TIMESTAMP,
+	"updated_at" timestamp(0) DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (id),
+	FOREIGN KEY (todo_id) REFERENCES todo(id)
+);
